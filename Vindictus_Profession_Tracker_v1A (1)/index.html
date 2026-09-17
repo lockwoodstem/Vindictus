@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0b0c">
+  <title>Vindictus Profession Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">🌳</div>
+        <div>
+          <div class="eyebrow">Vindictus</div>
+          <h1>Profession Tracker</h1>
+        </div>
+      </div>
+      <nav class="side-nav">
+        <button class="nav-link active" data-view="home">⌂ <span>Home</span></button>
+        <button class="nav-link" data-view="search">⌕ <span>Recipe Search</span></button>
+        <button class="nav-link" data-view="professions">⚒ <span>Professions</span></button>
+        <button class="nav-link" data-view="profile">♟ <span>My Profile</span></button>
+        <button class="nav-link" data-view="admin">⚙ <span>Admin</span></button>
+      </nav>
+      <div class="sidebar-card">
+        <div class="muted">Guild community</div>
+        <strong>Established 2019</strong>
+        <small>Public browsing • Discord login to edit</small>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Crafting Network</div>
+          <h2 id="page-title">Find a crafter</h2>
+        </div>
+        <button id="discord-login" class="button secondary">Sign in with Discord</button>
+      </header>
+
+      <section id="view-home" class="view active">
+        <section class="hero panel">
+          <div class="hero-copy">
+            <div class="eyebrow">Vindictus crafting network</div>
+            <h3>What do you need crafted?</h3>
+            <p>Search the guild recipe library and instantly see who can make it.</p>
+            <div class="search-wrap">
+              <input id="hero-search" type="search" placeholder="Search recipes, items, professions..." autocomplete="off">
+              <button id="hero-search-btn" class="button">Search</button>
+            </div>
+            <div id="hero-results" class="quick-results"></div>
+          </div>
+          <div class="tree-card">
+            <div class="tree-emblem">🌳</div>
+            <div class="tree-lines"></div>
+            <div class="tree-copy">
+              <strong>Play • Progress • Belong</strong>
+              <span>Guild crafting, without the spreadsheet hunt.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="stat-grid" id="stats"></section>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Browse</div>
+              <h3>Professions</h3>
+            </div>
+            <button class="link-button" data-view="professions">View all →</button>
+          </div>
+          <div class="profession-grid" id="profession-grid"></div>
+        </section>
+
+        <section class="two-col">
+          <div class="panel">
+            <div class="section-heading compact">
+              <div>
+                <div class="eyebrow">Activity</div>
+                <h3>Recently Learned</h3>
+              </div>
+            </div>
+            <div id="recent-feed" class="feed"></div>
+          </div>
+
+          <div class="panel">
+            <div class="section-heading compact">
+              <div>
+                <div class="eyebrow">Coverage</div>
+                <h3>Recipes at Risk</h3>
+              </div>
+            </div>
+            <div id="coverage-list" class="coverage-list"></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="view-search" class="view">
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Guild-wide lookup</div>
+              <h3>Recipe Search</h3>
+            </div>
+          </div>
+          <div class="search-wrap">
+            <input id="search-page-input" type="search" placeholder="Try 'Crusader', 'Mooncloth', 'Arcanite'..." autocomplete="off">
+            <button id="search-page-btn" class="button">Search</button>
+          </div>
+          <div class="filter-row">
+            <select id="profession-filter">
+              <option value="">All professions</option>
+            </select>
+            <select id="coverage-filter">
+              <option value="">All coverage</option>
+              <option value="missing">Missing</option>
+              <option value="rare">Rare (1 crafter)</option>
+              <option value="uncommon">Uncommon (2–3)</option>
+              <option value="covered">Well covered (4+)</option>
+            </select>
+          </div>
+          <div id="recipe-results" class="recipe-results"></div>
+        </section>
+      </section>
+
+      <section id="view-professions" class="view">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">Guild directory</div>
+            <h3>Profession Dashboards</h3>
+          </div>
+        </div>
+        <div class="profession-grid" id="profession-grid-full"></div>
+        <div id="profession-detail"></div>
+      </section>
+
+      <section id="view-profile" class="view">
+        <section class="panel profile-panel">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Member tools</div>
+              <h3>My Profile</h3>
+            </div>
+          </div>
+          <div class="auth-placeholder">
+            <div class="avatar-placeholder">V</div>
+            <div>
+              <h4>Discord sign-in will unlock profile editing.</h4>
+              <p>Version 1A includes the complete interface and data model. Connect Supabase + Discord OAuth to make profiles editable.</p>
+              <button class="button secondary" id="profile-login">Sign in with Discord</button>
+            </div>
+          </div>
+          <div class="demo-profile">
+            <div class="profile-head">
+              <div class="avatar demo-avatar">J</div>
+              <div>
+                <h4>Jonathan</h4>
+                <p>Aeiry • Core Raider</p>
+              </div>
+            </div>
+            <div id="demo-professions"></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="view-admin" class="view">
+        <section class="panel">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow">Leadership</div>
+              <h3>Admin Dashboard</h3>
+            </div>
+          </div>
+          <div class="admin-grid">
+            <article class="admin-card"><strong>Members</strong><span>Manage member profiles and visibility.</span><b id="admin-member-count">0</b></article>
+            <article class="admin-card"><strong>Custom Recipes</strong><span>Review, rename, merge, or remove entries.</span><b>0 pending</b></article>
+            <article class="admin-card"><strong>Coverage</strong><span>Find recipes with no or only one known crafter.</span><b id="admin-gap-count">0 gaps</b></article>
+            <article class="admin-card"><strong>Settings</strong><span>Guild Master only: Discord roles, security, thresholds.</span><b>GM</b></article>
+          </div>
+          <div class="notice">
+            <strong>Role model:</strong> Guild Master = full system control. Flag Officer = member and recipe management.
+          </div>
+        </section>
+      </section>
+
+      <footer>
+        <span>Vindictus Profession Tracker</span>
+        <span>Established 2019</span>
+      </footer>
+    </main>
+
+    <nav class="mobile-nav">
+      <button class="mobile-link active" data-view="home">⌂<span>Home</span></button>
+      <button class="mobile-link" data-view="search">⌕<span>Search</span></button>
+      <button class="mobile-link" data-view="professions">⚒<span>Professions</span></button>
+      <button class="mobile-link" data-view="profile">♟<span>Profile</span></button>
+      <button class="mobile-link" data-view="admin">•••<span>More</span></button>
+    </nav>
+  </div>
+
+  <dialog id="member-modal" class="member-modal">
+    <button class="modal-close" aria-label="Close">×</button>
+    <div id="member-modal-content"></div>
+  </dialog>
+
+  <script src="data/sample-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
